@@ -7,15 +7,23 @@ use Livewire\Component;
 
 class Character extends Component
 {
+
+    public $counter = 0;
+    
+    
     public function render()
     {
-        $characters = ModelsCharacter::paginate(25);
-        return view('livewire.character', compact('characters'));
+        $characters = $this->show(null);
+        $counter = $this->counter;
+        return view('livewire.character', compact('characters','counter'));
     }
     
-    public function show(Character $character)
+    public function show($filter = null)
     {
-        
-        return view('livewire.character-info', compact('character'));
+        if($filter){
+            //TODO: Write a function to filter the characters
+        }
+        return ModelsCharacter::paginate(25);
     }
+
 }

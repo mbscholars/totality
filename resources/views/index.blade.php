@@ -8,13 +8,8 @@
     @livewireStyles
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>The Breaking Bad API</h2>
-                    </div>
+    <div class="w-full bg-gray-200 align-items-center py-12">
+                        <h2 class="my-auto text-center text-2xl font-bold">The Breaking Bad API</h2>
                     <div class="card-body">
                         @if (session()->has('message'))
                             <div class="alert alert-success">
@@ -24,10 +19,7 @@
                         {{-- @livewire('posts') --}}
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
+   
    
         @livewire('character')
 
