@@ -20,12 +20,10 @@ class BreakingBadApiService{
     public function getAllCharacters() : bool|array
     {
 
+        /** Prevent API rate exceeded */
         if(Cache::has('api-timeout'))
         {
-            if(Carbon::now() < Cache::get('api-timeout'))
-            {
-                return false;
-            }
+            return false;
         }
 
         $response = Http::withoutVerifying()->get($this->baseUrl .'characters');
@@ -33,11 +31,12 @@ class BreakingBadApiService{
         //handle errors
         if($response->status() == 429)
         {
-            Cache::rememberForever('api-timeout', function () {
-                return Carbon::now()->addHours(24);
+            Cache::remember('api-timeout',  24*60*60 , function () {
+                return true;
             });
         }
 
+        
         if( $response->ok() )
         {   
             return $response->json();

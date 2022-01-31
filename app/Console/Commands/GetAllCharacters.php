@@ -38,6 +38,17 @@ class GetAllCharacters extends Command
      */
     public function handle()
     {
-       GetCharactersAction::run();
+        $bar = $this->output->createProgressBar(100);
+        $this->info('Getting Characters from the API');
+        $this->newLine();
+        $bar->start(40);
+        
+        
+        GetCharactersAction::run();
+        
+        $bar->finish();
+        $this->newLine();
+        $this->info('Characters were successfully imported into the database');
+
     }
 }

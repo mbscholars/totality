@@ -2,28 +2,49 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Category;
 use App\Models\Character as ModelsCharacter;
 use Livewire\Component;
+
 
 class Character extends Component
 {
 
-    public $counter = 0;
+    public $characters;
+
     
+    protected $listeners = ['filterSeason', 'filterName' ,'filterStatus' => 'filterByStatus'];
+
     
     public function render()
     {
-        $characters = $this->show(null);
-        $counter = $this->counter;
-        return view('livewire.character', compact('characters','counter'));
+        return view('livewire.character');
     }
     
-    public function show($filter = null)
+    public function mount()
     {
-        if($filter){
-            //TODO: Write a function to filter the characters
-        }
-        return ModelsCharacter::paginate(25);
+        $this->characters = ModelsCharacter::filterSeason($seasonInput=1); //set initial show to Breaking Bad
     }
 
+    public function filterName($nameInput)
+    {
+        $this->characters = ModelsCharacter::where('name', 'like', "%{$nameInput}%")->get();
+    }
+
+    public function filterByStatus($value)
+    {
+        $this->characters = ModelsCharacter::where('status', $value)->get();
+    }
+    
+    
+    public function filterSeason($seasonInput)
+    {
+        
+        $this->characters = ModelsCharacter::filterSeason($seasonInput);
+
+       
+    }
+    
+    
+    
 }

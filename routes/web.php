@@ -1,6 +1,5 @@
 <?php
 
-use App\Actions\GetCharactersAction;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/',  [\App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/',  App\Http\Livewire\Home::class);
+Route::get('/edit/{id}',  App\Http\Livewire\CharacterForm::class)->name('edit');
+Route::get('/show/{id}',  App\Http\Livewire\CharacterInfo::class)->name('show');
+// Route::post('/edit'. )
 
 

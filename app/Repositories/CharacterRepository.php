@@ -3,6 +3,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Category;
 use App\Models\Character;
 
 class CharacterRepository{
@@ -10,8 +11,21 @@ class CharacterRepository{
     public function store(array $data) : Character
     {
 
+        $character = $this->createCharacter($data);
+        
+        $character->setCharacterCategories($data['category'] ?? null);
 
-        $character = Character::firstOrCreate(
+        $this->addCharacterOccupations($character, $data['occupation']);
+
+        return $character;
+    }
+
+    
+  
+    public function createCharacter(array $data)
+    {
+        
+       return Character::firstOrCreate(
             [
                 'char_id' => $data['char_id']
             ],
@@ -22,18 +36,33 @@ class CharacterRepository{
                 'image' => $data['img'], 
                 'status' => $data['status'], 
                 'nickname' => $data['nickname'], 
-                'portrayed' => json_encode($data['portrayed']), 
-                'category' => json_encode($data['category'])
+                'portrayed' => ($data['portrayed']),     
            ]  
         );
+    }
 
-        foreach ($data['occupation'] as $occupation ) 
+    public function addCharacterOccupations(Character $character, array $occupations) : void
+    {
+        foreach ($occupations as $occupation ) 
         {
             $character->occupation()->firstOrCreate([
                 'title' => $occupation
             ]);
-        }
+        } 
+    }
 
-        return $character;
+    public function updateInfo(Character $character, $data) : bool
+    {
+        $character->update([
+            'nickname' => $data->nickname,
+            'status' => $data->status,
+            'quote' => $data->quote,
+        ]);
+
+        $character->occupation()->first()->update([
+            'title' => $data->occupation 
+        ]);
+       
+        return true;
     }
 }

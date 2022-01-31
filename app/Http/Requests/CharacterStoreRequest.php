@@ -13,7 +13,7 @@ class CharacterStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class CharacterStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nickname' => ['required', 'string', 'min:3' , 'max:55' ],
+            'occupation' => ['required', 'string'],
+            'quote' => ['required' , 'string', 'min:3', 'max:155',],
+            'status' => ['required', 'string', ],
         ];
     }
 }

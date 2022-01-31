@@ -12,6 +12,6 @@ class HomeController extends Controller
     {
         $characters = (Character::with('occupation')->paginate(25));
 
-        return view('index', compact('characters'));
+        return view('characters', compact('characters'));
     }
 }

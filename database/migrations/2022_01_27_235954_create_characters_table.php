@@ -21,9 +21,9 @@ class CreateCharactersTable extends Migration
             $table->string('birthday')->nullable();
             $table->text('image')->nullable();
             $table->string('status')->nullable();
+            $table->string('quote')->nullable();
             $table->string('nickname')->nullable();
             $table->string('portrayed')->nullable();
-            $table->string('category')->nullable();
             $table->json('appearances')->nullable();
         });
     }
